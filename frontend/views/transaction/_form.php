@@ -34,12 +34,12 @@ $listData=ArrayHelper::map($employee_roles,'id', 'name');
 
 <?php
 
-echo '<label class="control-label">Startup Time</label>';
+echo '<label class="control-label">Transaction Time</label>';
 echo DateTimePicker::widget([
 	//'name' => 'startup_time',
 	'model' => $model,
 	'attribute' => 'datetime',
-	//'value' => '02/01/2001 05:10:20',
+	//'value' => '2018-01-13 05:10:20',
     'readonly' => true,
 	'pluginOptions' => [
 		'autoclose' => true,

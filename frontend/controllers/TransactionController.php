@@ -95,6 +95,8 @@ $provider = new ActiveDataProvider([
     {
         $model = new Transaction();
 
+        $model->datetime = date('Y-m-d h:i:s');
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             //return $this->redirect(['view', 'id' => $model->id]);
                            Yii::$app->session->setFlash('success', 'Transaction created');

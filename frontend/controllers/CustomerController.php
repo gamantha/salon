@@ -81,7 +81,7 @@ class CustomerController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
                Yii::$app->session->setFlash('success', "Customer created");
-            return $this->redirect(['sales/create']);
+            return $this->redirect(['transaction/create']);
         }
 
         return $this->render('create', [

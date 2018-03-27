@@ -31,6 +31,7 @@ class EmployeeRole extends \yii\db\ActiveRecord
     {
         return [
             [['employee_id'], 'integer'],
+             [['employee_id','employee_role'], 'required'],
             [['employee_role'], 'string', 'max' => 255],
             [['employee_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employee::className(), 'targetAttribute' => ['employee_id' => 'id']],
             [['employee_role'], 'exist', 'skipOnError' => true, 'targetClass' => RefEmployeeRole::className(), 'targetAttribute' => ['employee_role' => 'employee_role']],
