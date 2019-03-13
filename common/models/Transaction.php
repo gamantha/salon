@@ -14,6 +14,7 @@ use yii\db\ActiveRecord;
  * @property string $datetime
  * @property int $created_at
  * @property int $updated_at
+ * @property string $status 
  *
  * @property Payment[] $payments
  * @property Sales[] $sales
@@ -38,6 +39,7 @@ class Transaction extends \yii\db\ActiveRecord
             [['customer_id', 'created_at', 'updated_at'], 'integer'],
             [['datetime'], 'safe'],
             [['customer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::className(), 'targetAttribute' => ['customer_id' => 'id']],
+            [['status'], 'string', 'max' => 255],   
         ];
     }
 
@@ -52,6 +54,7 @@ class Transaction extends \yii\db\ActiveRecord
             'datetime' => Yii::t('app', 'Datetime'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
+            'status' => Yii::t('app', 'Status'), 
         ];
     }
 

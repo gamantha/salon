@@ -12,11 +12,27 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'transaction_id')->textInput() ?>
+    <?= $form->field($model, 'transaction_id')->textInput([
+        'value' => $_GET['id'],
+        'readonly' => true
+    ]
+    ) ?>
 
-    <?= $form->field($model, 'payment_type')->textInput(['maxlength' => true]) ?>
+    <?php
+    
+    $options = ['cash' => 'cash', 'cc' => 'credit card'];
 
-    <?= $form->field($model, 'payment_amount')->textInput() ?>
+        echo $form->field($model, 'payment_type')->dropDownList(
+        $options,
+        ['prompt'=>'Select...']
+        );
+
+    ?>
+
+    <?= $form->field($model, 'payment_amount')->textInput([
+
+
+    ]) ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>

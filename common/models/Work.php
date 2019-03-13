@@ -35,7 +35,7 @@ class Work extends \yii\db\ActiveRecord
     {
         return [
             [['sales_id', 'employee_id', 'commission'], 'integer'],
-            [['sales_id', 'employee_id', 'commission_type', 'role'], 'required'],
+            [['sales_id', 'employee_id', 'role'], 'required'],
             [['note'], 'string'],
             [['role', 'commission_type'], 'string', 'max' => 255],
             [['employee_id'], 'exist', 'skipOnError' => true, 'targetClass' => Employee::className(), 'targetAttribute' => ['employee_id' => 'id']],

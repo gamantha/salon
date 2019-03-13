@@ -34,6 +34,7 @@ class Customer extends \yii\db\ActiveRecord
     {
         return [
             [['birthdate'], 'safe'],
+            [['birthdate'], 'default', 'value' => null],
             [['name', 'email', 'mobile', 'gender', 'address'], 'string', 'max' => 255],
         ];
     }

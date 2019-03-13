@@ -32,7 +32,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'email:email',
             'mobile',
-            'birthdate',
+            [
+                'label' => 'birthdate',
+                'value' => function($data){
+                    $date = date_create($data->birthdate);
+                    return date_format($date,"d M Y");
+                }
+
+            ],
             'gender',
             'address',
         ],

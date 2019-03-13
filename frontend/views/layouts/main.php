@@ -58,6 +58,7 @@ AppAsset::register($this);
            <li>'.Html::a(Yii::t('app', 'Customers'), ['/customer/index'], ['class'=>'']) .'</li>
            <li>'.Html::a(Yii::t('app', 'Products'), ['/product/index'], ['class'=>'']) .'</li>
            <li>'.Html::a(Yii::t('app', 'Employees'), ['/employee/index'], ['class'=>'']) .'</li>
+           <li>'.Html::a(Yii::t('app', 'Payments'), ['/payment/index'], ['class'=>'']) .'</li>
 
 
          </ul>

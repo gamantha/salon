@@ -4,7 +4,9 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\Payment;
+use common\models\Sales;
 use frontend\models\PaymentSearch;
+use common\models\Transaction;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -62,17 +64,31 @@ class PaymentController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id)
     {
         $model = new Payment();
+    
+        $transactionmodel = Transaction::findOne($id);
+        $price_charged = Sales::find()->andWhere(['transaction_id' => $id])->sum('price_charged');
+       $model->payment_amount = $price_charged;
+       $model->payment_status = 'paid';
+       $transactionmodel->status = 'closed';
+/*
+        echo '<pre>';
+        print_r($salesmodel);
+        echo '</pre>';
+
+  */      
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            $transactionmodel->save();
+            return $this->redirect(['transaction/view', 'id' => $id]);
         }
 
         return $this->render('create', [
             'model' => $model,
         ]);
+        
     }
 
     /**
@@ -82,7 +98,7 @@ class PaymentController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id, $transaction)
     {
         $model = $this->findModel($id);
 
@@ -93,6 +109,7 @@ class PaymentController extends Controller
         return $this->render('update', [
             'model' => $model,
         ]);
+        
     }
 
     /**

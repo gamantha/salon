@@ -1,8 +1,10 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+//use yii\grid\GridView;
+use kartik\grid\GridView;
 use yii\widgets\Pjax;
+use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\TransactionSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -22,12 +24,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        //'filterModel' => $searchModel,
+        'hover' => true,
+        'rowOptions'   => function ($model, $key, $index, $grid) {
+            return ['data-id' => $model->id];
+        },
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'customer_id',
+           // 'customer_id',
             [
                 'label' => 'Customer',
                 'value' => function($data) {
@@ -35,6 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             'datetime',
+            'status',
            // 'created_at',
            // 'updated_at',
 
@@ -43,3 +50,17 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
     <?php Pjax::end(); ?>
 </div>
+
+
+
+<?php
+$this->registerJs("
+
+    $('td').click(function (e) {
+        var id = $(this).closest('tr').data('id');
+        if(e.target == this)
+            location.href = '" . Url::to(['transaction/view']) . "?id=' + id;
+    });
+
+");
+?>

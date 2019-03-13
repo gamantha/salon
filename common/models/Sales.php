@@ -17,6 +17,7 @@ use yii\db\ActiveRecord;
  * @property int $dependent
  * @property int $created_at
  * @property int $updated_at
+ * @property int $promo_amount 
  *
  * @property Product $product
  * @property Sales $dependent0
@@ -41,7 +42,7 @@ class Sales extends \yii\db\ActiveRecord
     {
         return [
             [['transaction_id', 'product_id'], 'required'],
-            [['transaction_id', 'product_id', 'price_charged', 'dependent', 'created_at', 'updated_at'], 'integer'],
+            [['transaction_id', 'product_id', 'price_charged', 'dependent', 'created_at', 'updated_at', 'promo_amount'], 'integer'],
             [['product_id'], 'exist', 'skipOnError' => true, 'targetClass' => Product::className(), 'targetAttribute' => ['product_id' => 'id']],
             [['dependent'], 'exist', 'skipOnError' => true, 'targetClass' => Sales::className(), 'targetAttribute' => ['dependent' => 'id']],
             [['transaction_id'], 'exist', 'skipOnError' => true, 'targetClass' => Transaction::className(), 'targetAttribute' => ['transaction_id' => 'id']],
@@ -61,6 +62,7 @@ class Sales extends \yii\db\ActiveRecord
             'dependent' => Yii::t('app', 'Dependent'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
+            'promo_amount' => Yii::t('app', 'Promo Amount'),
         ];
     }
 

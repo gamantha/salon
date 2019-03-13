@@ -8,6 +8,12 @@ use common\models\Customer;
 use kartik\widgets\ActiveForm;
 use kartik\widgets\DateTimePicker;
 
+use kartik\typeahead\TypeaheadBasic;
+use kartik\typeahead\Typeahead;
+use yii\helpers\Url;
+use kartik\select2\Select2;
+
+
 /* @var $this yii\web\View */
 /* @var $model common\models\Transaction */
 /* @var $form yii\widgets\ActiveForm */
@@ -16,24 +22,36 @@ use kartik\widgets\DateTimePicker;
 <div class="transaction-form">
 
     <?php $form = ActiveForm::begin(); ?>
-
-       <?= Html::a(Yii::t('app', 'Create Customer'), ['customer/createforsales'], ['class' => 'btn btn-success']) ?>
-
 <?php
-
 $employee_roles=Customer::find()->all();
 $listData=ArrayHelper::map($employee_roles,'id', 'name');
 
+echo Html::a(Yii::t('app', 'New Customer'), ['customer/createforsales'], ['class' => 'btn btn-success']);
+echo $form->field($model, 'customer_id')->widget(Select2::classname(), [
+    'data' => $listData,
+    'options' => ['placeholder' => 'Select customer ...'],
+    'pluginOptions' => [
+        'allowClear' => true
+    ],
+]);
+
+
+
+
+
+
+
 
 ?>
-        <?= $form->field($model, 'customer_id')->dropDownList(
+        <?php
+  /*      
+        echo $form->field($model, 'customer_id')->dropDownList(
         $listData,
         ['prompt'=>'Select...']
-            ) ?>
+        );
+*/
 
-
-<?php
-
+//echo '<br/>';
 echo '<label class="control-label">Transaction Time</label>';
 echo DateTimePicker::widget([
 	//'name' => 'startup_time',
@@ -47,11 +65,17 @@ echo DateTimePicker::widget([
 	]
 ]);
 
+
+
+
+echo '<br/>';
+
 ?>
 
 
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
+       
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create new transaction') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

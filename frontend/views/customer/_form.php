@@ -18,11 +18,30 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'mobile')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'birthdate')->textInput() ?>
 
-    <?= $form->field($model, 'gender')->textInput(['maxlength' => true]) ?>
+<?php
 
-    <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
+echo $form->field($model, 'birthdate')->widget(\yii\jui\DatePicker::class, [
+    //'language' => 'ru',
+    'dateFormat' => 'yyyy-MM-dd',
+    'containerOptions' => [
+        'class' => 'form-group field-customer-birthdate',
+    ],
+    'options' => [
+        'class' => 'form-control',
+    ],
+]);
+
+
+echo $form->field($model, 'gender')->dropDownList(
+    ['male' => 'Male', 'female' => 'Female']
+); 
+
+
+?>
+
+
+    <?= $form->field($model, 'address')->textArea(['maxlength' => true]) ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>

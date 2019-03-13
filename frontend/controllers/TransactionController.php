@@ -11,7 +11,9 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
-
+use yii\helpers\Url;
+use yii\db\Query;
+use yii\helpers\Json;
 /**
  * TransactionController implements the CRUD actions for Transaction model.
  */
@@ -38,21 +40,41 @@ class TransactionController extends Controller
      */
     public function actionIndex()
     {
+
+        $query = Transaction::find()->where(['not',['status' => 'deleted']]);
+
+$provider = new ActiveDataProvider([
+    'query' => $query,
+    'pagination' => [
+        'pageSize' => 500,
+    ],
+    'sort' => [
+        'defaultOrder' => [
+           // 'created_at' => SORT_DESC,
+            //'title' => SORT_ASC, 
+        ]
+    ],
+]);
+
+
+
         $searchModel = new TransactionSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $query = Yii::$app->request->queryParams;
+        //$dataProvider = $searchModel->search($query);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'dataProvider' => $provider,
         ]);
     }
 
 
     public function actionDailyindex()
     {
+        
 $date = strtotime("+1 day");
 //echo date('m-d-y',$date);
-        $query = Transaction::find()->andWhere(['>=', 'datetime', date('Y-m-d')])->andWhere(['<', 'datetime', date('Y-m-d', $date)]);
+        $query = Transaction::find()->andWhere(['not',['status' => 'deleted']])->andWhere(['>=', 'datetime', date('Y-m-d')])->andWhere(['<', 'datetime', date('Y-m-d', $date)]);
 $provider = new ActiveDataProvider([
     'query' => $query,
     'pagination' => [
@@ -96,7 +118,7 @@ $provider = new ActiveDataProvider([
         $model = new Transaction();
 
         $model->datetime = date('Y-m-d h:i:s');
-
+        $model->status = 'open';
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             //return $this->redirect(['view', 'id' => $model->id]);
                            Yii::$app->session->setFlash('success', 'Transaction created');
@@ -105,6 +127,7 @@ $provider = new ActiveDataProvider([
 
         return $this->render('create', [
             'model' => $model,
+
         ]);
     }
 
@@ -137,15 +160,18 @@ $provider = new ActiveDataProvider([
      */
     public function actionDelete($id)
     {
+  /*
         $sales = Sales::find()->andWhere(['transaction_id' => $id])->All();
         foreach ($sales as $sale) {
             Work::deleteAll(['sales_id' => $sale->id]);
         }
-        //$works = 
         Sales::deleteAll(['transaction_id' => $id]);
 
         $this->findModel($id)->delete();
-
+*/
+$model = $this->findModel($id);
+$model->status = 'deleted';
+$model->save();
         return $this->redirect(['dailyindex']);
     }
 
@@ -164,4 +190,26 @@ $provider = new ActiveDataProvider([
 
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
+
+
+    /** 
+ * Your controller action to fetch the list
+ */
+public function actionCustomerList($q = null) {
+    $query = new Query;
+    
+    $query->select('name')
+        ->from('customer')
+       // ->where('name LIKE "%' . $q .'%"')
+        ->orderBy('name');
+    $command = $query->createCommand();
+    $data = $command->queryAll();
+    $out = [];
+    foreach ($data as $d) {
+        $out[] = ['value' => $d['name']];
+    }
+    echo Json::encode($out);
+}
+
+
 }

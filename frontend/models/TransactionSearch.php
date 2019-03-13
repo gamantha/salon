@@ -13,18 +13,18 @@ use common\models\Transaction;
 class TransactionSearch extends Transaction
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {
         return [
             [['id', 'customer_id', 'created_at', 'updated_at'], 'integer'],
-            [['datetime'], 'safe'],
+            [['datetime', 'status'], 'safe'],
         ];
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function scenarios()
     {
@@ -65,6 +65,8 @@ class TransactionSearch extends Transaction
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
+
+        $query->andFilterWhere(['like', 'status', $this->status]);
 
         return $dataProvider;
     }

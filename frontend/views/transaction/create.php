@@ -1,6 +1,10 @@
 <?php
 
 use yii\helpers\Html;
+use kartik\typeahead\TypeaheadBasic;
+use kartik\typeahead\Typeahead;
+use kartik\select2\Select2;
+
 
 
 /* @var $this yii\web\View */

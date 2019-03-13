@@ -3,11 +3,11 @@
 namespace common\models;
 
 /**
- * This is the ActiveQuery class for [[Payment]].
+ * This is the ActiveQuery class for [[Promotion]].
  *
- * @see Payment
+ * @see Promotion
  */
-class PaymentQuery extends \yii\db\ActiveQuery
+class PromotionQuery extends \yii\db\ActiveQuery
 {
     /*public function active()
     {
@@ -16,7 +16,7 @@ class PaymentQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return Payment[]|array
+     * @return Promotion[]|array
      */
     public function all($db = null)
     {
@@ -25,7 +25,7 @@ class PaymentQuery extends \yii\db\ActiveQuery
 
     /**
      * {@inheritdoc}
-     * @return Payment|array|null
+     * @return Promotion|array|null
      */
     public function one($db = null)
     {
